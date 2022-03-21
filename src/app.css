@@ -1,0 +1,98 @@
+/*
+  Z-IINDEX SPECIFICATION
+  |- Navbar, Navbar dropdown, Sidebar = 10
+  |--- Navbar dropdown backdrop, Sidebar backdrop = 9
+  |- Dropdown = 20
+  |--- Dropdown backdrop = 19
+  |- Modal = 30
+  |--- Modal backdrop = 29
+  |- Exit popup = 40
+  |--- Exit popup backdrop = 39
+  |- Tooltop = 49
+*/
+
+/* Write your global styles here, in PostCSS syntax */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base{
+  :root {
+    --DARK-BASE         : 17,24,39;           /* #18181B */
+    --LIGHT-BASE        : 249,250,251;        /* #FAFAFC */
+
+    --brand             : 16,185,129;         /* #10B981; */
+    --on-brand          : var(--LIGHT-BASE);
+
+    --text-default      : var(--DARK-BASE);
+    --text-muted        : 107,114,128;        /* #71717A */
+    --text-alt          : var(--LIGHT-BASE);
+
+    --bg-primary        : 255,255,255;        /* #FFFFFF */
+    --bg-secondary      : 248,250,252;        /* #F4F4F5 */
+    --bg-tertiary       : 241,245,249;        /* #E4E4E7 */
+    --bg-alt            : var(--DARK-BASE);
+
+    --body-font         : "Lato";
+    --title-font        : "PT Sans";
+  }
+  :root.dark {
+    --text-default      : var(--LIGHT-BASE);
+    --text-muted        : 156,163,175;        /* #A1A1AA */
+    --text-alt          : var(--DARK-BASE);
+
+    --bg-primary        : var(--DARK-BASE);   /* #0F172A */
+    --bg-secondary      : 31,41,55;           /* #27272A */
+    --bg-tertiary       : 55,65,81;           /* #3f3f46 */
+    --bg-alt            : var(--LIGHT-BASE);
+  }
+
+  /* BROWSER SPECIFIC */
+  ::-webkit-scrollbar {
+    @apply w-1;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    /* @apply bg-alt-b; */
+    @apply bg-brand;
+  }
+
+  body{
+    @apply relative overflow-x-hidden bg-primary text-default font-body dark:font-light;
+    @apply selection:bg-brand selection:text-light;
+    /* @apply selection:bg-alt-b selection:text-alt-t; /* for black and white theme */
+  }
+  main{
+    @apply max-w-screen-4xl mx-auto
+  }
+  h1,h2,h3,h4,h5,h6{
+    @apply font-heading;
+  }
+  a{
+    @apply text-brand;
+  }
+  [type='text'], [type='email'], [type='url'], [type='password'], [type='number'], [type='date'], [type='datetime-local'], [type='month'], [type='search'], [type='tel'], [type='time'], [type='week'], [multiple], textarea, select,
+  [type='text']:focus, [type='email']:focus, [type='url']:focus, [type='password']:focus, [type='number']:focus, [type='date']:focus, [type='datetime-local']:focus, [type='month']:focus, [type='search']:focus, [type='tel']:focus, [type='time']:focus, [type='week']:focus, [multiple]:focus, textarea:focus, select:focus{
+    @apply outline-transparent ring-transparent border-transparent;
+  }
+
+  [type="checkbox"],[type="radio"] {
+    @apply border-dark text-brand focus:ring-brand focus:ring-opacity-0;
+  }
+  [type="checkbox"]{
+    @apply w-5 h-5 rounded;
+  }
+  /* CUSTOM CLASSES */
+  .brand-box{
+    @apply bg-brand text-on-brand;
+  }
+  .bg-brand{
+    @apply selection:bg-primary selection:text-brand;
+  }
+  .btn{
+    @apply inline-block px-4 py-3 font-medium select-none text-xs;
+  }
+}
+

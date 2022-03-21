@@ -1,0 +1,31 @@
+{
+  "short_name": "M B Parvez",
+  "name": "mbparvez.me",
+  "start_url": "/?utm_source=pwa",
+  "background_color": "#FFE0E0",
+  "display": "standalone",
+  "scope": "/",
+  "theme_color": "#0f172a",
+  "description": "Full Stack Web and Mobile App Developer - Your perfect Web Development partner",
+  "icons": [
+    {
+      "src": "favicon.png",
+      "type": "image/png",
+      "sizes": "16x16"
+    },
+    {
+      "src": "favicon.png",
+      "type": "image/png",
+      "sizes": "32x32"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "About Me",
+      "short_name": "About",
+      "description": "All about me.",
+      "url": "/about/?utm_source=pwa",
+      "icons": [{ "src": "android-chrome-192x192.png", "sizes": "192x192" }]
+    }
+  ]
+}
