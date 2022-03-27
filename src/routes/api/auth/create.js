@@ -5,8 +5,9 @@ export let post = async (req) => {
   let body = await req.request.json()
 
   body.pin = randomNum(100000, 999999)
+  let url = `${import.meta.env.VITE_API}${import.meta.env.VITE_API_VERSION}/register`
 
-  // let res = await fetch(import.meta.env.VITE_API + "/register", {
+  // let res = await fetch(url, {
   //   method : "POST",
   //   headers : {"Content-Type": "application/json"},
   //   body: JSON.stringify(body),

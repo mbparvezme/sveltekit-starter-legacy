@@ -4,6 +4,7 @@
   export let disabled = false
   export let label    = undefined
   export let href     = undefined
+  export let tabindex = undefined
 
   export let animateSpeed = "normal" // {normal: 300, fast: 100, slow: 500}
   export let type = "button"
@@ -73,80 +74,80 @@
 
 {#if !href}
 <button class="flex items-center transition-all ease-in-out gap-2 {cls} {classes}"
+  {tabindex}
+  class:space-0={spaceZero}
+  class:w-auto={width=="auto"}
+  class:w-full={width=="full"}
 
-    class:space-0={spaceZero}
-    class:w-auto={width=="auto"}
-    class:w-full={width=="full"}
+  class:btn-xs={size=="xs"}
+  class:btn-sm={size=="sm"}
+  class:btn-md={size=="md"}
+  class:btn-lg={size=="lg"}
+  class:btn-xl={size=="xl"}
 
-    class:btn-xs={size=="xs"}
-    class:btn-sm={size=="sm"}
-    class:btn-md={size=="md"}
-    class:btn-lg={size=="lg"}
-    class:btn-xl={size=="xl"}
+  class:justify-start={align=="start"}
+  class:justify-center={align=="center"}
+  class:justify-end={align=="end"}
+  class:justify-between={align=="between"}
 
-    class:justify-start={align=="start"}
-    class:justify-center={align=="center"}
-    class:justify-end={align=="end"}
-    class:justify-between={align=="between"}
+  class:rounded-sm={$S.isRounded && rounded=="sm"}
+  class:rounded-md={$S.isRounded && rounded=="md"}
+  class:rounded-lg={$S.isRounded && rounded=="lg"}
+  class:rounded-xl={$S.isRounded && rounded=="xl"}
+  class:rounded-full={$S.isRounded && rounded=="full"}
 
-    class:rounded-sm={$S.isRounded && rounded=="sm"}
-    class:rounded-md={$S.isRounded && rounded=="md"}
-    class:rounded-lg={$S.isRounded && rounded=="lg"}
-    class:rounded-xl={$S.isRounded && rounded=="xl"}
-    class:rounded-full={$S.isRounded && rounded=="full"}
+  class:border={outline}
 
-    class:border={outline}
+  {disabled}
 
-    {disabled}
+  {type}
 
-    {type}
+  on:blur
+  on:click
+  on:focus
+  on:dblclick
+  on:pointerdown
+>
+  <slot name="leftItem"></slot>
+  <slot name="label">{label??""}</slot>
+  <slot name="rightItem"></slot>
+</button>
+{:else}
+<a href={href} class="flex items-center {cls} {classes}"
 
-    on:blur
-    on:click
-    on:focus
-    on:dblclick
-    on:pointerdown
-  >
-    <slot name="leftItem"></slot>
-    <slot name="label">{label??""}</slot>
-    <slot name="rightItem"></slot>
-  </button>
-  {:else}
-  <a href={href} class="flex items-center {cls} {classes}"
+  class:rounded-sm={$S.isRounded && rounded=="sm"}
+  class:rounded-md={$S.isRounded && rounded=="md"}
+  class:rounded-lg={$S.isRounded && rounded=="lg"}
+  class:rounded-xl={$S.isRounded && rounded=="xl"}
+  class:rounded-full={$S.isRounded && rounded=="full"}
 
-    class:rounded-sm={$S.isRounded && rounded=="sm"}
-    class:rounded-md={$S.isRounded && rounded=="md"}
-    class:rounded-lg={$S.isRounded && rounded=="lg"}
-    class:rounded-xl={$S.isRounded && rounded=="xl"}
-    class:rounded-full={$S.isRounded && rounded=="full"}
+  class:btn-xs={size=="xs"}
+  class:btn-sm={size=="sm"}
+  class:btn-md={size=="md"}
+  class:btn-lg={size=="lg"}
+  class:btn-xl={size=="xl"}
 
-    class:btn-xs={size=="xs"}
-    class:btn-sm={size=="sm"}
-    class:btn-md={size=="md"}
-    class:btn-lg={size=="lg"}
-    class:btn-xl={size=="xl"}
+  class:w-auto={width=="auto"}
+  class:w-full={width=="full"}
 
-    class:w-auto={width=="auto"}
-    class:w-full={width=="full"}
+  class:justify-start={align=="start"}
+  class:justify-center={align=="center"}
+  class:justify-end={align=="end"}
+  class:justify-between={align=="between"}
 
-    class:justify-start={align=="start"}
-    class:justify-center={align=="center"}
-    class:justify-end={align=="end"}
-    class:justify-between={align=="between"}
+  class:border={outline}
+  {disabled}
 
-    class:border={outline}
-    {disabled}
-
-    on:blur
-    on:click
-    on:focus
-    on:dblclick
-    on:pointerdown
-  >
-    <slot name="leftItem"></slot>
-    <slot name="label">{label??""}</slot>
-    <slot name="rightItem"></slot>
-  </a>
+  on:blur
+  on:click
+  on:focus
+  on:dblclick
+  on:pointerdown
+>
+  <slot name="leftItem"></slot>
+  <slot name="label">{label??""}</slot>
+  <slot name="rightItem"></slot>
+</a>
 {/if}
 
 <style lang="postcss">

@@ -2,7 +2,8 @@ import { set } from "$lib/utility/cookie"
 
 export async function post( req ) {
   let body = await req.request.json()
-  // let res = await fetch(import.meta.env.VITE_API + "/login", {
+  let url = `${import.meta.env.VITE_API}${import.meta.env.VITE_API_VERSION}/login`
+  // let res = await fetch(url, {
   //   method : "POST",
   //   headers : {"Content-Type": "application/json"},
   //   body: JSON.stringify(body),

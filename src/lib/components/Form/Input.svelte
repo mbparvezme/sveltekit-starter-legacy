@@ -11,6 +11,7 @@
               required = true,
               readonly = false,
               value = "",
+              tabindex = undefined,
               cls = "",
               direction = "col",
               animateSpeed = "normal",  // {normal: 300, fast: 100, slow: 500}
@@ -116,31 +117,31 @@
 
   {#if label}<Label classes={labelClasses} label={label} labelFor={name}/>{/if}
   {#if type === "text"}
-    <input id="{name}" class="{classes} {round({default: rounded}, $S.isRounded)}" type="text" name="{name}" placeholder="{placeholder}" {required} {readonly} bind:value>
+    <input id="{name}" class="{classes} {round({default: rounded}, $S.isRounded)}" type="text" name="{name}" placeholder="{placeholder}" {required} {readonly} {tabindex} bind:value>
   {:else if type === "password"}
-    <input id="{name}" class="{classes} {round({default: rounded}, $S.isRounded)}" type="password" name="{name}" placeholder="{placeholder}" {required} {readonly} bind:value>
+    <input id="{name}" class="{classes} {round({default: rounded}, $S.isRounded)}" type="password" name="{name}" placeholder="{placeholder}" {required} {readonly} {tabindex} bind:value>
   {:else if type === "email"}
-    <input id="{name}" class="{classes} {round({default: rounded}, $S.isRounded)}" type="email" name="{name}" placeholder="{placeholder}" {required} {readonly} bind:value>
+    <input id="{name}" class="{classes} {round({default: rounded}, $S.isRounded)}" type="email" name="{name}" placeholder="{placeholder}" {required} {readonly} {tabindex} bind:value>
   {:else if type === "url"}
-    <input id="{name}" class="{classes} {round({default: rounded}, $S.isRounded)}" type="url" name="{name}" placeholder="{placeholder}" {required} {readonly} bind:value>
+    <input id="{name}" class="{classes} {round({default: rounded}, $S.isRounded)}" type="url" name="{name}" placeholder="{placeholder}" {required} {readonly} {tabindex} bind:value>
   {:else if type === "number"}
-    <input id="{name}" class="{classes} {round({default: rounded}, $S.isRounded)}" type="number" name="{name}" placeholder="{placeholder}" {required} {readonly} bind:value>
+    <input id="{name}" class="{classes} {round({default: rounded}, $S.isRounded)}" type="number" name="{name}" placeholder="{placeholder}" {required} {readonly} {tabindex} bind:value>
   {:else if type === "date"}
-    <input id="{name}" class="{classes} {round({default: rounded}, $S.isRounded)}" type="date" name="{name}" placeholder="{placeholder}" {required} {readonly} bind:value>
+    <input id="{name}" class="{classes} {round({default: rounded}, $S.isRounded)}" type="date" name="{name}" placeholder="{placeholder}" {required} {readonly} {tabindex} bind:value>
   {:else if type === "datetime-local"}
-    <input id="{name}" class="{classes} {round({default: rounded}, $S.isRounded)}" type="datetime-local" name="{name}" placeholder="{placeholder}" {required} {readonly} bind:value>
+    <input id="{name}" class="{classes} {round({default: rounded}, $S.isRounded)}" type="datetime-local" name="{name}" placeholder="{placeholder}" {required} {readonly} {tabindex} bind:value>
   {:else if type === "month"}
-    <input id="{name}" class="{classes} {round({default: rounded}, $S.isRounded)}" type="month" name="{name}" placeholder="{placeholder}" {required} {readonly} bind:value>
+    <input id="{name}" class="{classes} {round({default: rounded}, $S.isRounded)}" type="month" name="{name}" placeholder="{placeholder}" {required} {readonly} {tabindex} bind:value>
   {:else if type === "search"}
-    <input id="{name}" class="{classes} {round({default: rounded}, $S.isRounded)}" type="search" name="{name}" placeholder="{placeholder}" {required} {readonly} bind:value>
+    <input id="{name}" class="{classes} {round({default: rounded}, $S.isRounded)}" type="search" name="{name}" placeholder="{placeholder}" {required} {readonly} {tabindex} bind:value>
   {:else if type === "tel"}
-    <input id="{name}" class="{classes} {round({default: rounded}, $S.isRounded)}" type="tel" name="{name}" placeholder="{placeholder}" {required} {readonly} bind:value>
+    <input id="{name}" class="{classes} {round({default: rounded}, $S.isRounded)}" type="tel" name="{name}" placeholder="{placeholder}" {required} {readonly} {tabindex} bind:value>
   {:else if type === "time"}
-    <input id="{name}" class="{classes} {round({default: rounded}, $S.isRounded)}" type="time" name="{name}" placeholder="{placeholder}" {required} {readonly} bind:value>
+    <input id="{name}" class="{classes} {round({default: rounded}, $S.isRounded)}" type="time" name="{name}" placeholder="{placeholder}" {required} {readonly} {tabindex} bind:value>
   {:else if type === "textarea"}
-    <textarea id="{name}" class="{classes} {round({default: rounded}, $S.isRounded)}" name="{name}" placeholder="{placeholder}" {required} {readonly} rows={rows} bind:value></textarea>
+    <textarea id="{name}" class="{classes} {round({default: rounded}, $S.isRounded)}" name="{name}" placeholder="{placeholder}" {required} {readonly} rows={rows} {tabindex} bind:value></textarea>
   {:else if type === "select"}
-    <select id="{name}" class="{classes} {round({default: rounded}, $S.isRounded)}" name="{name}" {required} bind:value>
+    <select id="{name}" class="{classes} {round({default: rounded}, $S.isRounded)}" name="{name}" {required} {tabindex} bind:value>
       {#if placeholder}<option value="" disabled>{placeholder}</option>{/if}
       {#if data}
         {#each data as d}
