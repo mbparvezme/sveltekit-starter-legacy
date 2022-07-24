@@ -4,6 +4,6 @@
 <label class="{classes}" for="{labelFor}">{label}</label>
 <style lang="postcss">
   label{
-    @apply inline-block mb-2 text-xs font-semibold dark:font-normal;
+    @apply inline-block mb-2 dark:font-normal;
   }
 </style>

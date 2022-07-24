@@ -1,19 +1,14 @@
 <script>
-  import { fill } from "$lib/utility/classname"
+  // import { fill } from "$lib/utility/classname"
   export let name = undefined
   export let size = 1
-  export let focusable = false
-
-  export let cls = ""
-  export let color = "current",
-             hoverColor = undefined,
-             darkColor = undefined,
-             darkHoverColor = undefined
+  export let focusable = false, cls = "", path = undefined, viewbox = undefined
 </script>
 
-<svg {focusable} width="{1 * size||1}rem" height="{1 * size||1}rem"
-  class="{cls} {fill({light:color, hover:hoverColor, dark:darkColor, darkHover:darkHoverColor})}">
-  <use href={`#${name}`}/>
+<svg class="{cls}" {focusable} width="{1 * size||1}rem" height="{1 * size||1}rem" {viewbox}
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  {#if name} <use href={`#${name}`}/> {/if}
+  {#if path} {@html path} {/if}
 </svg>
 
 <svg aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden;" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">

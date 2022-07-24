@@ -1,6 +1,6 @@
 {
-  "short_name": "M B Parvez",
-  "name": "mbparvez.me",
+  "short_name": "MY APP",
+  "name": "myapp.com",
   "start_url": "/?utm_source=pwa",
   "background_color": "#FFE0E0",
   "display": "standalone",

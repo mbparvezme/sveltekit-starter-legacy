@@ -33,8 +33,8 @@
     --bg-tertiary       : 241,245,249;        /* #E4E4E7 */
     --bg-alt            : var(--DARK-BASE);
 
-    --body-font         : "Lato";
-    --title-font        : "PT Sans";
+    /* --body-font         : "Lato";
+    --title-font        : "PT Sans"; */
   }
   :root.dark {
     --text-default      : var(--LIGHT-BASE);
@@ -84,15 +84,7 @@
   [type="checkbox"]{
     @apply w-5 h-5 rounded;
   }
-  /* CUSTOM CLASSES */
-  .brand-box{
-    @apply bg-brand text-on-brand;
-  }
   .bg-brand{
     @apply selection:bg-primary selection:text-brand;
   }
-  .btn{
-    @apply inline-block px-4 py-3 font-medium select-none text-xs;
-  }
 }
-

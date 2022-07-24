@@ -1,148 +1,95 @@
-<script>
-  import { S } from "$lib/stores"
-  import { background, border, text, round } from "$lib/utility/classname"
-  export let disabled = false
-  export let label    = undefined
-  export let href     = undefined
-  export let tabindex = undefined
+<script lang="ts">
+  import { S } from "$lib/store"
+  import { animate, roundedClass, shadow } "$lib/utility/classmaker"
+  import { AnimateSpeed, ButtonTheme, RoundedType, ShadowColor, ShadowType } from "$lib/utility/types"
 
-  export let animateSpeed = "normal" // {normal: 300, fast: 100, slow: 500}
-  export let type = "button"
-  export let cls = undefined
-  export let spaceZero = false
+  export let label: string = ""
+  export let type: string = "button"
+  export let disabled: boolean = false
+  export let href?: string|undefined
+  export let tabindex?: number|undefined
 
   // Style
-  export let  size = "md", //px = 4, py = 2, mdpx, mdpy,
-              rounded = "md",
+  export let animateSpeed: AnimateSpeed = "normal"
+  export let spaceZero: boolean = false
+  export let rounded: RoundedType = "md"
+  export let size: "xs" | "sm" | "md" | "lg" | "xl" = "md"
+  export let themeLight : ButtonTheme   = "brand"
+  export let themeDark?: ButtonTheme
+  export let shadowLight?: ShadowType
+  export let shadowDark?: ShadowType
+  export let shadowColor?: ShadowColor
 
-              textColor = "on-brand",
-              textFocusColor = undefined,
-              textHoverColor = undefined,
-              textDarkColor = undefined,
-              textDarkFocusColor = undefined,
-              textDarkHoverColor = undefined,
+  let themeClass = (light: ButtonTheme, dark: ButtonTheme): string => {
+    let theme: string = ""
+    if(light == "brand")  theme = "bg-brand text-on-brand"
+    if(light == "dark")   theme = "bg-dark text-light"
+    if(light == "light")  theme = "bg-light text-dark"
+    if(light == "red")    theme = "bg-red text-light"
+    if(light == "green")  theme = "bg-green text-light"
+    if(light == "yellow") theme = "bg-yellow text-dark"
+    if(light == "alt")    theme = "bg-alt-b text-alt-t"
+    if(light == "transparent")        theme = "bg-transparent text-default"
+    if(light == "transparent-brand")  theme = "bg-transparent text-brand"
 
-              outline = undefined,
-              outlineFocus = undefined,
-              outlineHover = undefined,
-              outlineDark = undefined,
-              outlineDarkFocus = undefined,
-              outlineDarkHover = undefined,
+    if(light == "brand-outline")  theme = "border border-brand text-brand hover:bg-brand hover:text-on-brand"
+    if(light == "dark-outline")   theme = "border border-dark text-dark hover:bg-dark hover:text-light"
+    if(light == "light-outline")  theme = "border border-light text-light hover:bg-light hover:text-dark"
+    if(light == "red-outline")    theme = "border border-red text-red hover:bg-red hover:text-light"
+    if(light == "green-outline")  theme = "border border-green text-green hover:bg-green hover:text-light"
+    if(light == "yellow-outline") theme = "border border-yellow text-yellow hover:bg-yellow hover:text-dark"
+    if(light == "alt-outline")    theme = "border border-alt-b text-default hover:bg-alt-b hover:text-alt-t"
 
-              bgColor = outline ? undefined : "brand",
-              bgFocusColor = undefined,
-              bgHoverColor = undefined,
-              bgDarkColor = undefined,
-              bgDarkFocusColor = undefined,
-              bgDarkHoverColor = undefined,
+    if(dark == "brand")  theme += "dark:bg-brand dark:text-on-brand"
+    if(dark == "dark")   theme += "dark:bg-dark dark:text-light"
+    if(dark == "light")  theme += "dark:bg-light dark:text-dark"
+    if(dark == "red")    theme += "dark:bg-red dark:text-light"
+    if(dark == "green")  theme += "dark:bg-green dark:text-light"
+    if(dark == "yellow") theme += "dark:bg-yellow dark:text-dark"
+    if(dark == "alt")    theme += "dark:bg-alt-b dark:text-alt-t"
+    if(dark == "transparent")       theme = "dark:bg-transparent dark:ext-default"
+    if(dark == "transparent-brand") theme = "dark:bg-transparent dark:text-brand"
 
-              width = "auto",
-              align = "center"
+    if(dark == "brand-outline")  theme += "border dark:border-brand dark:text-brand dark:hover:bg-brand dark:hover:text-on-brand"
+    if(dark == "dark-outline")   theme += "border dark:border-dark dark:text-dark dark:hover:bg-dark dark:hover:text-light"
+    if(dark == "light-outline")  theme += "border dark:border-light dark:text-light dark:hover:bg-light dark:hover:text-dark"
+    if(dark == "red-outline")    theme += "border dark:border-red dark:text-red dark:hover:bg-red dark:hover:text-light"
+    if(dark == "green-outline")  theme += "border dark:border-green dark:text-green dark:hover:bg-green dark:hover:text-light"
+    if(dark == "yellow-outline") theme += "border dark:border-yellow dark:text-yellow dark:hover:bg-yellow dark:hover:text-dark"
+    if(dark == "alt-outline")    theme += "border dark:border-alt-b dark:text-defau;t dark:hover:bg-alt-b dark:hover:text-alt-t"
 
-  let textColorObj = {
-    light: textColor,
-    focus: textFocusColor,
-    hover: textHoverColor,
-    dark: textDarkColor,
-    darkFocus: textDarkFocusColor,
-    darkHover: textDarkHoverColor
+    return theme
   }
 
-  let bgColorObj = {
-    light: bgColor,
-    focus: bgFocusColor,
-    hover: bgHoverColor,
-    dark: bgDarkColor,
-    darkfocus: bgDarkFocusColor,
-    darkHover: bgDarkHoverColor
-  }
+  let finalClass: string = "flex items-center justify-center gap-2 " +
+                    themeClass(themeLight, themeDark)+" "+roundedClass($S.isRounded, rounded)+" "+
+                    shadow(shadowLight, shadowDark, shadowColor)+" "+animate(animateSpeed)
 
-  let borderColorObj = {
-    light: outline,
-    focus: outlineFocus,
-    hover: outlineHover,
-    dark: outlineDark,
-    darkFocus: outlineDarkFocus,
-    darkHover: outlineDarkHover
-  }
-
-  let classes = text(textColorObj) + " " + background(bgColorObj) + " " +
-                (outline ? border(borderColorObj):"") + " " +
-                round({default: rounded}, $S.isRounded) + " " +
-                (animateSpeed == "fast" ? 'duration-100': (animateSpeed == "slow" ? 'duration-500': 'duration-300'))
 </script>
 
 {#if !href}
-<button class="flex items-center transition-all ease-in-out gap-2 {cls} {classes}"
-  {tabindex}
-  class:space-0={spaceZero}
-  class:w-auto={width=="auto"}
-  class:w-full={width=="full"}
-
+<button class="{finalClass}" {tabindex} {disabled} {type}
+  on:blur on:click on:focus on:dblclick on:pointerdown
   class:btn-xs={size=="xs"}
   class:btn-sm={size=="sm"}
   class:btn-md={size=="md"}
   class:btn-lg={size=="lg"}
   class:btn-xl={size=="xl"}
-
-  class:justify-start={align=="start"}
-  class:justify-center={align=="center"}
-  class:justify-end={align=="end"}
-  class:justify-between={align=="between"}
-
-  class:rounded-sm={$S.isRounded && rounded=="sm"}
-  class:rounded-md={$S.isRounded && rounded=="md"}
-  class:rounded-lg={$S.isRounded && rounded=="lg"}
-  class:rounded-xl={$S.isRounded && rounded=="xl"}
-  class:rounded-full={$S.isRounded && rounded=="full"}
-
-  class:border={outline}
-
-  {disabled}
-
-  {type}
-
-  on:blur
-  on:click
-  on:focus
-  on:dblclick
-  on:pointerdown
+  class:space-0={spaceZero}
 >
   <slot name="leftItem"></slot>
-  <slot name="label">{label??""}</slot>
+  <slot name="label">{label}</slot>
   <slot name="rightItem"></slot>
 </button>
 {:else}
-<a href={href} class="flex items-center {cls} {classes}"
-
-  class:rounded-sm={$S.isRounded && rounded=="sm"}
-  class:rounded-md={$S.isRounded && rounded=="md"}
-  class:rounded-lg={$S.isRounded && rounded=="lg"}
-  class:rounded-xl={$S.isRounded && rounded=="xl"}
-  class:rounded-full={$S.isRounded && rounded=="full"}
-
+<a sveltekit:prefetch href={href} class="{finalClass}" {tabindex} {disabled}
+  on:blur on:click on:focus on:dblclick on:pointerdown
   class:btn-xs={size=="xs"}
   class:btn-sm={size=="sm"}
   class:btn-md={size=="md"}
   class:btn-lg={size=="lg"}
   class:btn-xl={size=="xl"}
-
-  class:w-auto={width=="auto"}
-  class:w-full={width=="full"}
-
-  class:justify-start={align=="start"}
-  class:justify-center={align=="center"}
-  class:justify-end={align=="end"}
-  class:justify-between={align=="between"}
-
-  class:border={outline}
-  {disabled}
-
-  on:blur
-  on:click
-  on:focus
-  on:dblclick
-  on:pointerdown
+  class:space-0={spaceZero}
 >
   <slot name="leftItem"></slot>
   <slot name="label">{label??""}</slot>
@@ -158,7 +105,7 @@
     @apply px-3 py-2 text-sm;
   }
   .btn-md:not(.space-0){
-    @apply px-4 py-3 text-base;
+    @apply px-4 py-2.5 text-base;
   }
   .btn-lg:not(.space-0){
     @apply px-6 py-3 text-lg;

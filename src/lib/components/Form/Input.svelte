@@ -1,108 +1,61 @@
-<script>
-  import { S } from "$lib/stores"
-  import { background, border, text, round } from "$lib/utility/classname"
+<script lang="ts">
+  import { S } from "$lib/store"
   import { Label } from "$lib/components"
+  import { round } from "$lib/utility/classname"
 
-  export let  style = "default", // default, flat
-              label = undefined,
-              type = "text",
-              name = undefined,
-              placeholder = undefined,
-              required = true,
-              readonly = false,
-              value = "",
-              tabindex = undefined,
-              cls = "",
-              direction = "col",
-              animateSpeed = "normal",  // {normal: 300, fast: 100, slow: 500}
-              rows = 3, // Textarea
-              data = undefined // Select
+  import { roundedClass } from "$lib/utility/classmaker"
+  import { AnimateSpeed, BackgroundType, BackgroundVariant, InputType, OpacityType } from "$lib/utility/types"
 
-  export let  size = "md",
-              mb = 8,
-              grow = false,
-              rounded = "md",
+  // Input attributes
+  export let type: InputType = "text"
+  export let label: string|boolean = false
+  export let name: string
+  export let placeholder?: string
+  export let readonly: boolean = false
+  export let required: boolean = true
+  export let tabindex: number|boolean = false
+  export let value: string = ""
+  export let data?: Object
+  export let rows: number = 3
 
-              textColor = undefined,
-              textFocucColor = undefined,
-              textDarkColor = undefined,
-              textDarkFocucColor = undefined,
+  export let animateSpeed: AnimateSpeed = "normal"
+  export let rounded: RoundedType = "md"
+  export let size: "xs" | "sm" | "md" | "lg" | "xl" = "md"
 
-              bgColor = "transparent",
-              bgFocucColor = undefined,
-              bgDarkColor = "transparent",
-              bgDarkFocucColor = undefined,
+  export let bgLight: BackgroundType = "transparent"
+  export let bgDark: BackgroundType = "primary"
+  export let grow: boolean = false
+  export let mb: 4 | 8 | 12 = 8
 
-              borderOpacity = 25,
-              borderFocucOpacity = undefined,
-              borderDarkOpacity = undefined,
-              borderDarkFocucOpacity = undefined,
+  export let containerCls?: string
+  export let inputCls?: string
+  export let apparence: "default" | "flat" = "default"
 
-              outline = "dark",
-              outlineFocus = undefined,
-              outlineDark = "tertiary",
-              outlineDarkFocus = undefined,
-
-              outlineOpacity = "dark",
-              outlineFocusOpacity = undefined,
-              outlineDarkOpacity = "tertiary",
-              outlineDarkFocusOpacity = undefined,
-
-              labelColor = undefined,
-              labelDarkColor = undefined,
-              labelWeight = undefined,
-              labelDarkWeight = undefined,
-              labelFontSize = undefined,
-              labelMdFontSize = undefined,
-              labelLgFontSize = undefined,
-              labelXlFontSize = undefined
-
-  let textColorObj = {
-    light: textColor,
-    focus: textFocucColor,
-    dark: textDarkColor,
-    darkFocus: textDarkFocucColor
-  }  
-  let bgColorObj = {
-    light: bgColor,
-    focus: bgFocucColor,
-    dark: bgDarkColor,
-    darkFocus: bgDarkFocucColor
-  }
-  let bgOpacityObj = {
-    light: borderOpacity,
-    focus: borderFocucOpacity,
-    dark: borderDarkOpacity,
-    darkFocus: borderDarkFocucOpacity
-  }
-  let outlineObj = {
-    light: outline,
-    focus: outlineFocus,
-    dark: outlineDark,
-    darkFocus: outlineDarkFocus
-  }
-  let outlineOpacityObj = {
-    light: outlineOpacity,
-    focus: outlineFocusOpacity,
-    dark: outlineDarkOpacity,
-    darkFocus: outlineDarkFocusOpacity
+  let background = (light: BackgroundType, dark: BackgroundType) => {    
+    let cls: string = ""
+    if(typeof light !== "undefined"){
+      cls += light=="transparent" ? "bg-transparent" : light=="primary" ? "bg-primary" : light=="secondary" ? "bg-secondary" : light=="tertiary" ? "bg-tertiary" : light=="brand" ? "bg-brand" : ""
+    }
+    if(typeof dark !== "undefined"){
+      cls += dark=="transparent" ? "dark:bg-transparent" : dark=="primary" ? "dark:bg-primary" : dark=="secondary" ? "dark:bg-secondary" : dark=="tertiary" ? "dark:bg-tertiary" : dark=="brand" ? "dark:bg-brand" : ""
+    }
+    return cls
   }
 
-  let classes = text(textColorObj) + " " + background(bgColorObj) + " " +
-                background(bgOpacityObj, "opacity")+" " +(outline ? border(outlineObj) : "")+" "+
-                (outline ? border(outlineOpacityObj, 'opacity'):"") + " " +
-                (animateSpeed == "fast" ? 'duration-100': (animateSpeed == "slow" ? 'duration-500': 'duration-300'))
+  let classes: string = "border-opacity-25 border-dark dark:border-tertiary" + " " + inputCls + " " + background(bgLight, bgDark) + " " + animate(animateSpeed) + " " + roundedClass($S.isRounded, rounded)
 
-  let labelClasses =  text({color : labelColor, darkColor : labelDarkColor}) + " " +
-                      text({default : labelFontSize, md : labelMdFontSize, lg : labelLgFontSize, xl : labelXlFontSize}, "size") + " " +
-                      text({light: labelWeight, dark : labelDarkWeight}, "weight")
+  let labelClasses: string = "text-default text-xs font-semibold uppercase"
+
+  let setType => (node) {
+		node.type = type;
+	}
+
 </script>
 
 <div
-  class="flex {cls} {classes}"
-  class:flex-col={direction == "col"}
-  class:input-default = {style == "default"}
-  class:input-flat = {style == "flat"}
+  class="flex flex-col {containerCls}"
+  class:input-default = {apparence == "default"}
+  class:input-flat = {apparence == "flat"}
   class:flex-grow={grow}
   class:mb-4={mb==4}
   class:mb-8={mb==8}
@@ -116,8 +69,15 @@
 >
 
   {#if label}<Label classes={labelClasses} label={label} labelFor={name}/>{/if}
-  {#if type === "text"}
-    <input id="{name}" class="{classes} {round({default: rounded}, $S.isRounded)}" type="text" name="{name}" placeholder="{placeholder}" {required} {readonly} {tabindex} bind:value>
+  {#if type === "textarea"}
+  <textarea id="{name}" class="{classes} {round({default: rounded}, $S.isRounded)}" name="{name}" placeholder="{placeholder}" {required} {readonly} rows={rows} {tabindex} bind:value></textarea>
+  {:else}
+  <input bind:value {name} use:setType {id} class={inputClass} {placeholder} {required} {disabled} {readonly} />
+  {/if}
+
+
+  <!-- {#if type === "text"}
+    <input id="{name}" use:setType class="{classes} {round({default: rounded}, $S.isRounded)}" name="{name}" placeholder="{placeholder}" {required} {readonly} {tabindex} bind:value>
   {:else if type === "password"}
     <input id="{name}" class="{classes} {round({default: rounded}, $S.isRounded)}" type="password" name="{name}" placeholder="{placeholder}" {required} {readonly} {tabindex} bind:value>
   {:else if type === "email"}
@@ -149,7 +109,7 @@
         {/each}
       {/if}
     </select>
-  {/if}
+  {/if} -->
 </div>
 
 <style lang="postcss">

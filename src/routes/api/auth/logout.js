@@ -1,4 +1,4 @@
-import { getToken } from "$lib/utility"
+import { extractToken } from "$lib/utility"
 import { set } from "$lib/utility/cookie"
 
 export async function post(req){
@@ -10,7 +10,7 @@ export async function post(req){
     headers : {
       "Content-Type": "application/json",
       "Accept": "application/json",
-      "Authorization": `Bearer ${ getToken(body.JWT) }`
+      "Authorization": `Bearer ${ extractToken(body.JWT) }`
     }
   })
   .then(value => value.json())

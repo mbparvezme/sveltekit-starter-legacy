@@ -1,10 +1,11 @@
 <script>
-  import { S } from "$lib/stores"
+  import { S } from "$lib/store"
   import { onMount } from "svelte"
-  import { round } from "$lib/utility/classname"
+  // import { round } from "$lib/utility/classname"
 
   export let  data = {},
-              rounded = "lg",
+              containerCls = "",
+              sliderCls = "",
               opt = {},
               responsiveSlider = false,
               md    = {gutter:  8, items: 2},
@@ -71,9 +72,9 @@
   <!--[if (lt IE 9)]><script src="https://cdnjs.cloudflare.com/ajax/libs/tiny-slider/2.9.4/min/tiny-slider.helper.ie8.js"></script><![endif]-->
 </svelte:head>
 
-<section class="my-slider overflow-hidden {round({default: rounded}, $S.isRounded)}">
+<section class="my-slider overflow-hidden {containerCls}">
   {#each data as item}
-    <div class="overflow-hidden {round({default: rounded}, $S.isRounded)}">
+    <div class="overflow-hidden {sliderCls}">
       <div>
         <img src="{item}" alt="{item}">
       </div>
@@ -82,9 +83,7 @@
 </section>
 
 <style lang="postcss">
-  div span{
-    @apply shadow-lg bg-secondary block select-none;
-  }
+  
 </style>
 
 

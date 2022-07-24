@@ -1,40 +1,32 @@
 <script>
   import { onMount } from "svelte"
-  import { S } from "$lib/stores"
+  import { session } from "$app/stores"
+  import { S } from "$lib/store"
   import { background, padding } from "$lib/utility/classname"
 
-  export let segment = "/", isLoggedIn = false // sm, lg, xl
-  export let miniNavScrollAmount = 5, // Scroll amount || false to deactive
-             hideOnScroll = false // scroll amount to hide navbar || false to deactive
-  // Style
-  export let bgColor = "transparent", bgDarkColor = undefined,
-             opacity = undefined, darkOpacity = undefined,
-             px = 8,
-             height = "lg",
-             mdPx = false
+  export let segment = "/"
+  export let cls = "", px = 8, mdPx = false, height = "lg"
 
-  let classes = background({light: bgColor, dark: bgDarkColor}) + " "+
-                background({light:opacity, dark:darkOpacity}, "opacity") + " "+
-                padding({px, mdPx})
+  let classes = background({light: $S.navbar.bgLight, dark: $S.navbar.bgDark}) + " " + padding({px, mdPx})
 
   onMount(() => {
     let scrollPos = 0
     let navbar = document.querySelector(".navbar")
     window.addEventListener("scroll", () => {
-      if(miniNavScrollAmount !== false){
-        if (window.pageYOffset >= miniNavScrollAmount) {
+      if($S.miniNavScrollAmount !== false){
+        if (window.pageYOffset >= $S.miniNavScrollAmount) {
           navbar.classList.add("navbar-mini")
         } else {
           navbar.classList.remove("navbar-mini")
         }
       }
-      if(hideOnScroll !== false)
-        scrollPos = window.pageYOffset >= hideOnScroll ? document.body.getBoundingClientRect().top : 0
+      if($S.hideNavOnScroll !== false)
+        scrollPos = window.pageYOffset >= $S.hideNavOnScroll ? document.body.getBoundingClientRect().top : 0
     })
   })
 </script>
 
-<nav  class="navbar {classes}"
+<nav  class="navbar {cls} {classes}"
       class:fixed={$S.navFixed}
       class:height-sm={height == "sm"}
       class:height-md={height == "md"}

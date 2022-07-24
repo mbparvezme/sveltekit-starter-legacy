@@ -1,6 +1,6 @@
 <script>
   import { onMount } from "svelte"
-  import {S} from "$lib/stores"
+  import { S } from "$lib/store"
   import { Button } from "$lib/components"
   export let tabindex = undefined
 
@@ -27,15 +27,16 @@
         document.documentElement.classList.remove('dark')
       }
     }
-    // alert("ello")
     setTheme();
   </script>
   {/if}
 </svelte:head>
-<Button size="xs" bgColor="transparent" textColor="default" {tabindex} on:click={()=>toggleTheme()}>
+{#if $S.darkTheme}
+<Button size="xs" {tabindex} cls="bg-transparent text-default" on:click={()=>toggleTheme()}>
   <svelte:fragment slot="label">
     <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16" class="w-4 h-4">
       <path d="M8 15A7 7 0 1 0 8 1v14zm0 1A8 8 0 1 1 8 0a8 8 0 0 1 0 16z"/>
     </svg>
   </svelte:fragment>
 </Button>
+{/if}

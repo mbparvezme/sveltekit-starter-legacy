@@ -1,5 +1,5 @@
 <script>
-  import { S } from "$lib/stores"
+  import { S } from "$lib/store"
   export let segment
   let sidebar = () => {
     if(document.querySelector("html").classList.contains("mini-bar")){
@@ -11,7 +11,7 @@
   }
 </script>
 
-<section id="appSidebar" class="bg-secondary border-black/5 dark:border-black/30" class:bg-dark={$S.appSidebar=="dark"}>
+<section id="appSidebar" class="bg-primary dark:bg-secondary border-black/5 dark:border-black/30" class:bg-dark={$S.appSidebar=="dark"}>
   <section class="primary-bar grow">
     <div class="profile pt-6 flex items-start">
       <a href="/profile" class="flex text-default font-semibold">
